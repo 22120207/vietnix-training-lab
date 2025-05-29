@@ -27,7 +27,10 @@ Tùy vào từng trường hợp của website mà ta có thể chọn LAMP/LEMP
 
 ### I. Triển khai LEMP stack chạy Wordpress
 
-#### 1. Các bước cấu hình
+#### 1. Link kết quả deploy
+[https://wordpress.caotienminh.software](https://wordpress.caotienminh.software)
+
+#### 2. Từng bước cấu hình
 
 ##### 1.1. Tải Nginx
 
@@ -162,9 +165,6 @@ Chạy lệnh phía dưới, nhập tên email và các tên miền mà ta muố
 sudo certbot –nginx
 ```
 
-#### 2. Đường dẫn sau khi deploy
-[https://wordpress.caotienminh.software](https://wordpress.caotienminh.software)
-
 #### 3. Kết quả
 ![LEMP Result](lemp-result.png)
 
@@ -172,7 +172,10 @@ sudo certbot –nginx
 
 ### II. Triển khai LAMP stack chạy Laravel
 
-#### 1. Các bước cấu hình
+#### 1. Link kết quả deploy
+[https://laravel.caotienminh.software](https://laravel.caotienminh.software)
+
+#### 2. Từng bước cấu hình
 
 ##### 1.1. Tải Apache2
 ```bash
@@ -290,9 +293,6 @@ sudo snap install --classic certbot
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
 sudo certbot --apache
 ```
-
-#### 2. Đường dẫn sau khi deploy
-[https://laravel.caotienminh.software](https://laravel.caotienminh.software)
 
 #### 3. Kết quả
 ![LAMP Result](lamp-result.png)
