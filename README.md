@@ -30,9 +30,15 @@ Tùy vào từng trường hợp của website mà ta có thể chọn LAMP/LEMP
 #### 1. Các bước cấu hình
 
 ##### 1.1. Tải Nginx
+
+Chạy các câu lệnh sau để tải nginx:
 ```bash
 sudo apt update
 sudo apt install nginx
+```
+
+Chạy 2 câu lệnh sau để enable nginx luôn start ngay cả khi bị reboot:
+```bash
 sudo systemctl enable nginx
 sudo systemctl start nginx
 ```
@@ -42,6 +48,8 @@ sudo systemctl start nginx
 sudo apt install mysql-server -y
 mysql -u root -p
 ```
+
+Sau khi login thành công vào MySQL, chạy cách lệnh sau đây:
 
 ```sql
 CREATE DATABASE wordpress_db;
@@ -87,7 +95,7 @@ define( 'DB_PASSWORD', 'strong_password' );
 sudo nano /etc/nginx/sites-available/wordpress.caotienminh.software
 ```
 
-Paste vào:
+Dán các dòng sau vào file cấu hình của wordpress (thông tin user, password, database của MySQL)
 ```nginx
 server {
     server_name wordpress.caotienminh.software www.wordpress.caotienminh.software;
@@ -123,6 +131,7 @@ server {
 }
 ```
 
+Sau khi cấu hình thành công, ta sẽ tạo một symbolic link liên kết đến folder /etc/nginx/sites-enabled, và cần phải kiểm tra xem cấu hình có thành công hay không thông qua lệnh nginx -t và cuối cùng là chạy lênh nginx reload để apply lại cấu hình
 ```bash
 sudo ln -s /etc/nginx/sites-available/wordpress.caotienminh.software /etc/nginx/sites-enabled/
 sudo nginx -t
@@ -130,10 +139,26 @@ sudo nginx -s reload
 ```
 
 ##### 1.6. Cấu hình HTTPS với Certbot
+
+Tải snap
 ```bash
 sudo apt install snapd -y
+```
+
+Tải cerbot
+```bash
 sudo snap install --classic certbot
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot –nginx
+```
+
+Tạo shortcut (symbolic link) cho certbot
+```bash
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+```
+
+Chạy lệnh phía dưới, nhập tên email và các tên miền mà ta muốn xác thực ssl, và certbot sẽ tự động cấu hình lại nginx và cấp ssl certificate miễn phí để xác thực https cho web server
+```bash
 sudo certbot –nginx
 ```
 
@@ -216,7 +241,7 @@ composer create-project --prefer-dist laravel/laravel travellist
 cd travellist
 ```
 
-Chỉnh sửa `.env`:
+Ta sẽ tiến hành cấu hình Laravel App bằng cách chỉnh sửa file `.env` (db username, password, database …) như sau: 
 ```
 DB_DATABASE=travellist
 DB_USERNAME=travellist_user
