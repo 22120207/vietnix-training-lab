@@ -53,7 +53,6 @@ mysql -u root -p
 ```
 
 Sau khi login thành công vào MySQL, chạy cách lệnh sau đây:
-
 ```sql
 CREATE DATABASE wordpress_db;
 CREATE USER 'wordpress_user'@'localhost' IDENTIFIED BY 'strong_password';
@@ -86,7 +85,7 @@ sudo cp /var/www/wordpress.caotienminh.software/wp-config-sample.php /var/www/wo
 sudo nano /var/www/wordpress.caotienminh.software/wp-config.php
 ```
 
-Thêm vào:
+Dán các dòng sau vào file cấu hình của wordpress (thông tin user, password, database của MySQL):
 ```php
 define( 'DB_NAME', 'wordpress_db' );
 define( 'DB_USER', 'wordpress_user' );  
