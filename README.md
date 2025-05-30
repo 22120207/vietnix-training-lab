@@ -32,7 +32,7 @@ Tùy vào từng trường hợp của website mà ta có thể chọn LAMP/LEMP
 
 #### 2. Từng bước cấu hình
 
-##### 1.1. Tải Nginx
+##### 2.2. Tải Nginx
 
 Chạy các câu lệnh sau để tải nginx:
 ```bash
@@ -46,7 +46,7 @@ sudo systemctl enable nginx
 sudo systemctl start nginx
 ```
 
-##### 1.2. Tải MySQL
+##### 2.2. Tải MySQL
 ```bash
 sudo apt install mysql-server -y
 mysql -u root -p
@@ -61,14 +61,14 @@ FLUSH PRIVILEGES;
 EXIT;
 ```
 
-##### 1.3. Tải PHP
+##### 2.3. Tải PHP
 ```bash
 sudo apt install php8.1-fpm php8.1-mysql php8.1-curl php8.1-gd php8.1-mbstring php8.1-xml php8.1-xmlrpc php8.1-soap php8.1-intl php8.1-zip -y 
 sudo systemctl start php8.1-fpm 
 sudo systemctl enable php8.1-fpm
 ```
 
-##### 1.4. Tải Wordpress
+##### 2.4. Tải Wordpress
 ```bash
 sudo mkdir -p /var/www/wordpress.caotienminh.software
 cd /tmp
@@ -92,7 +92,7 @@ define( 'DB_USER', 'wordpress_user' );
 define( 'DB_PASSWORD', 'strong_password' );
 ```
 
-##### 1.5. Cấu hình Nginx
+##### 2.5. Cấu hình Nginx
 ```bash
 sudo nano /etc/nginx/sites-available/wordpress.caotienminh.software
 ```
@@ -140,7 +140,7 @@ sudo nginx -t
 sudo nginx -s reload
 ```
 
-##### 1.6. Cấu hình HTTPS với Certbot
+##### 2.6. Cấu hình HTTPS với Certbot
 
 Tải snap
 ```bash
@@ -176,7 +176,7 @@ sudo certbot –nginx
 
 #### 2. Từng bước cấu hình
 
-##### 1.1. Tải Apache2
+##### 2.2. Tải Apache2
 ```bash
 sudo apt update
 sudo apt install apache2
@@ -184,7 +184,7 @@ sudo systemctl enable apache2
 sudo systemctl start apache2
 ```
 
-##### 1.2. Tải MySQL và tạo DB
+##### 2.2. Tải MySQL và tạo DB
 ```bash
 sudo apt install mysql-server -y
 mysql -u root -p
@@ -220,14 +220,14 @@ VALUES ("Tokyo", false),
 ("Helsinki", false);
 ```
 
-##### 1.3. Tải PHP
+##### 2.3. Tải PHP
 ```bash
 sudo apt install php8.1-fpm php8.1-mysql php8.1-curl php8.1-gd php8.1-mbstring php8.1-xml php8.1-xmlrpc php8.1-soap php8.1-intl php8.1-zip -y 
 sudo systemctl start php8.1-fpm 
 sudo systemctl enable php8.1-fpm
 ```
 
-##### 1.4. Tải Composer
+##### 2.4. Tải Composer
 ```bash
 sudo apt install php-cli unzip
 cd ~
@@ -250,7 +250,7 @@ DB_USERNAME=travellist_user
 DB_PASSWORD=password
 ```
 
-##### 1.5. Cấu hình Apache
+##### 2.5. Cấu hình Apache
 ```bash
 sudo mv ~/travellist /var/www/travellist
 sudo chown -R www-data.www-data /var/www/travellist
@@ -285,7 +285,7 @@ Paste vào:
 sudo service apache2 reload
 ```
 
-##### 1.6. Cấu hình HTTPS với Certbot
+##### 2.6. Cấu hình HTTPS với Certbot
 ```bash
 sudo apt install snapd -y
 sudo snap install --classic certbot
