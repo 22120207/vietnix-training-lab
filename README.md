@@ -32,7 +32,7 @@ Tùy vào từng trường hợp của website mà ta có thể chọn LAMP/LEMP
 
 #### 2. Từng bước cấu hình
 
-##### 2.2. Tải Nginx
+##### 2.1. Tải Nginx
 
 Chạy các câu lệnh sau để tải nginx:
 ```bash
@@ -176,7 +176,7 @@ sudo certbot –nginx
 
 #### 2. Từng bước cấu hình
 
-##### 2.2. Tải Apache2
+##### 2.1. Tải Apache2
 ```bash
 sudo apt update
 sudo apt install apache2
