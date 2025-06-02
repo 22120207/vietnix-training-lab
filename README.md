@@ -138,7 +138,7 @@ cPanel là bảng điều khiển lưu trữ web dựa trên Linux, cung cấp g
 - **MIME Types**: Hướng dẫn xử lý các phần mở rộng tệp như `.html`, `.htm`.
 
 ## 2.2. WHM
-WHM (WebHost Manager) cung cấp quyền kiểm soát quản trị cho máy chủ chuyên dụng hoặc VPS, cho phép nhà cung cấp hosting quản lý tài khoản khách hàng. WHM cũng là bảng điều khiển cho reseller, nhưng quyền reseller bị 제한 so với quyền root trên VPS/Dedicated Server.
+WHM (WebHost Manager) cung cấp quyền kiểm soát quản trị cho máy chủ chuyên dụng hoặc VPS, cho phép nhà cung cấp hosting quản lý tài khoản khách hàng. WHM cũng là bảng điều khiển cho reseller, nhưng quyền reseller bị giới hạn so với quyền root trên VPS/Dedicated Server.
 
 **Tính năng**:
 - **Primary Domain**: Quản lý domain chính.
