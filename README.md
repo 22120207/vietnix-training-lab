@@ -500,7 +500,8 @@ add_shortcode('laravel_posts', 'laravel_api_posts_shortcode');
 ?>
 ```
 
-###### Activate plugin  
+###### Activate plugin
+
 Vào wordpress /wp-admin đeer activate plugin vừa tạo xong  
 ![ACTIVATE PLUGIN](activate-plugin.png)
 
