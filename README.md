@@ -6,7 +6,6 @@
   - [b. VPS Hosting](#b-vps-hosting)
   - [c. Domain](#c-domain)
   - [d. DNS - Domain Name System](#d-dns---domain-name-system)
-  - [Colocation](#colocation)
 - [2. Control Panels](#2-control-panels)
   - [2.1. cPanel](#21-cpanel)
   - [2.2. WHM](#22-whm)
