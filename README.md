@@ -303,7 +303,7 @@ Một trang web có thể vừa static và dynamic. Đối với phía Frontend,
 ---
 
 ##### Workflow của bài lab
-![WORK-FLOW](work-flow.png)
+![WORK-FLOW](reverse-proxy-workflow.png)
 
 ##### MySQL setup
 
