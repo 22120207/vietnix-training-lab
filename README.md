@@ -1,5 +1,41 @@
 # Training Notes
 
+## Mục lục
+- [1. Các sản phẩm cơ bản của Vietnix](#1-các-sản-phẩm-cơ-bản-của-vietnix)
+  - [a. Hosting](#a-hosting)
+  - [b. VPS Hosting](#b-vps-hosting)
+  - [c. Domain](#c-domain)
+  - [d. DNS - Domain Name System](#d-dns---domain-name-system)
+  - [Colocation](#colocation)
+- [2. Control Panels](#2-control-panels)
+  - [2.1. cPanel](#21-cpanel)
+    - [Email](#email)
+    - [File](#file)
+    - [Database](#database)
+    - [Domain](#domain)
+    - [Metrics](#metrics)
+    - [Security](#security)
+    - [Software](#software)
+    - [Advanced](#advanced)
+  - [2.2. WHM](#22-whm)
+- [3. Web and Server Control Panels](#3-web-and-server-control-panels)
+  - [3.1. Web Panel](#31-web-panel)
+  - [3.2. Server Control Panel](#32-server-control-panel)
+    - [a. DirectAdmin](#a-directadmin)
+    - [b. aaPanel](#b-aapanel)
+    - [c. CyberPanel](#c-cyberpanel)
+    - [d. VestaCP](#d-vestacp)
+- [4. WordPress Hosting](#4-wordpress-hosting)
+- [5. iptables](#5-iptables)
+- [6. Lab Triển Khai LEMP & LAMP Stack](#6-lab-triển-khai-lemp--lamp-stack)
+  - [A. Nội dung cần nắm trước khi làm bài Lab](#a-nội-dung-cần-nắm-trước-khi-làm-bài-lab)
+    - [1. Reverse Proxy](#1-reverse-proxy)
+    - [2. Phân biệt giữa static và dynamic website](#2-phân-biệt-giữa-static-và-dynamic-website)
+    - [3. LAMP/LEMP stack là gì?](#3-lamplemp-stack-là-gì)
+  - [B. Lab](#b-lab)
+    - [I. Triển khai LEMP stack chạy WordPress](#i-triển-khai-lemp-stack-chạy-wordpress)
+    - [II. Triển khai LAMP stack chạy Laravel](#ii-triển-khai-lamp-stack-chạy-laravel)
+
 ## 1. Các sản phẩm cơ bản của Vietnix
 
 ### a. Hosting
@@ -35,14 +71,17 @@ Các loại bản ghi DNS:
 - **TLD Name Server (Top Level Domain)**: Lưu trữ thông tin về các tên miền có phần mở rộng chung (gTLD) như `.com`, `.org`, `.net`.
 - **Authoritative Name Server**: Lưu trữ thông tin về tên miền và địa chỉ IP tương ứng, là điểm cuối của quá trình truy vấn và phân giải địa chỉ IP.
 
-**Colocation**: Doanh nghiệp mua thiết bị (router, server,...) nhưng đặt trong cơ sở của nhà cung cấp dịch vụ.
+### Colocation
+Doanh nghiệp mua thiết bị (router, server,...) nhưng đặt trong cơ sở của nhà cung cấp dịch vụ.
 
-## 2.1. cPanel
+## 2. Control Panels
+
+### 2.1. cPanel
 cPanel là bảng điều khiển lưu trữ web dựa trên Linux, cung cấp giao diện đồ họa thân thiện để quản lý website và tài nguyên máy chủ.
 
 **Tính năng**:
 
-### Email
+#### Email
 - Tạo, xóa, kiểm tra, quản lý email, cấu hình email cho mail client.
 - **Forwarders**: Chuyển tiếp email đến một email khác. Ví dụ: forward các email gửi đến `test1@hosting.com` → `tech@vietnix.vn`.
 - **Email Routing**: Định tuyến email nhận đến một server cụ thể (phải luôn đặt local mail exchanger).
@@ -59,7 +98,7 @@ cPanel là bảng điều khiển lưu trữ web dựa trên Linux, cung cấp g
 - **Email Disk Usage**: Thống kê dung lượng disk của từng email.
 - **ASSP Antispam**: Điều chỉnh giá trị spam score từ lowest đến highest, bật/tắt tính năng cho từng domain email, Delaying filter.
 
-### File
+#### File
 - **File Manager**: Upload, xóa, sửa file, nén, giải nén, hiển thị file ẩn (`.htaccess`, `.env`,...).
 - **Images**: Công cụ convert, chỉnh sửa hình ảnh của cPanel.
 - **Directory Privacy**: Cài đặt user/pass cho các thư mục trên cPanel, tương tự `htpasswd`.
@@ -73,13 +112,13 @@ cPanel là bảng điều khiển lưu trữ web dựa trên Linux, cung cấp g
   - **Home Directory**: Sao lưu file, có thể chọn từng file để khôi phục.
   - **Databases**: Khôi phục database.
 
-### Database
+#### Database
 - **phpMyAdmin**: Đăng nhập bằng tài khoản MySQL.
 - **MySQL Databases**: Tạo database, user, cấp quyền.
 - **MySQL Database Wizard**: Hỗ trợ tạo database từng bước, đảm bảo không quên các bước như tạo user, thêm user vào database, cấp quyền.
 - **Remote MySQL**: Bật remote MySQL cho database.
 
-### Domain
+#### Domain
 - **WP Toolkit**: Tải theme, plugin WordPress.
 - **Site Publisher**: Tạo nhanh website bằng template có sẵn của cPanel.
 - **Domains**: Thêm, xóa domain.
@@ -88,7 +127,7 @@ cPanel là bảng điều khiển lưu trữ web dựa trên Linux, cung cấp g
 - **Dynamic DNS**: CPanel cấp URL để cập nhật NS cho subdomain bằng cách curl đến URL này.
 - **IP Manager** (chỉ có trên Hosting SEO): Đổi IP cho các domain.
 
-### Metrics
+#### Metrics
 - **Visitors**: Access logs, dùng để xác định hosting có đang bị tấn công.
 - **Errors**: Apache Error Logs.
 - **Bandwidth**: Thống kê traffic từng ngày theo từng domain.
@@ -102,7 +141,7 @@ cPanel là bảng điều khiển lưu trữ web dựa trên Linux, cung cấp g
     - **NPROC**: Số lượng tiến trình tối đa.
     - **IOPS**: I/O per second Hosting.
 
-### Security
+#### Security
 - **SSH Access**: SSH lên hosting, hỗ trợ thêm SSH key.
 - **IP Blocker**: Chặn IP không cho truy cập vào website.
 - **SSL/TLS**: Quản lý SSL server.
@@ -114,7 +153,7 @@ cPanel là bảng điều khiển lưu trữ web dựa trên Linux, cung cấp g
 - **Two-Factor Authentication**: Xác thực hai yếu tố.
 - **Imunify360**: Quét virus tự động.
 
-### Software
+#### Software
 - **WordPress Manager by Softaculous**: Tạo WordPress tự động, tương tự WP Toolkit.
 - **PHP PEAR Packages**: Gói PEAR dùng để chạy trong PHP.
 - **Perl Modules**: Mô-đun PERL hỗ trợ tạo các tác vụ PERL.
@@ -127,7 +166,7 @@ cPanel là bảng điều khiển lưu trữ web dựa trên Linux, cung cấp g
 - **Setup Node.js App**: Cài đặt ứng dụng Node.js.
 - **Select PHP Version** (hỗ trợ bởi CloudLinux): Chọn phiên bản PHP khác nhau cho từng website.
 
-### Advanced
+#### Advanced
 - **LiteSpeed Web Cache Manager**: Hỗ trợ flush cache từ giao diện cPanel nếu khách sử dụng LSCache plugin.
 - **Terminal**: Chạy các lệnh terminal.
 - **Cron Jobs**: Tự động hóa các nhiệm vụ lặp lại theo lịch, ví dụ: tạo hóa đơn lúc 12:00 hàng ngày.
@@ -137,7 +176,7 @@ cPanel là bảng điều khiển lưu trữ web dựa trên Linux, cung cấp g
 - **Apache Handlers**: Các tùy chọn xử lý của Apache.
 - **MIME Types**: Hướng dẫn xử lý các phần mở rộng tệp như `.html`, `.htm`.
 
-## 2.2. WHM
+### 2.2. WHM
 WHM (WebHost Manager) cung cấp quyền kiểm soát quản trị cho máy chủ chuyên dụng hoặc VPS, cho phép nhà cung cấp hosting quản lý tài khoản khách hàng. WHM cũng là bảng điều khiển cho reseller, nhưng quyền reseller bị giới hạn so với quyền root trên VPS/Dedicated Server.
 
 **Tính năng**:
@@ -148,12 +187,14 @@ WHM (WebHost Manager) cung cấp quyền kiểm soát quản trị cho máy ch�
 - cPanel: Quản lý một website (dành cho người không chuyên).
 - WHM: Quản lý nhiều website, tạo tài khoản cPanel, quản lý toàn bộ server.
 
-## 3.1. Web Panel
+## 3. Web and Server Control Panels
+
+### 3.1. Web Panel
 **Kết luận**: Dịch vụ hosting web là dịch vụ mà nhiều máy chủ của nhà cung cấp đóng vai trò host, cho phép người dùng lưu trữ website trên đó. Người dùng quản lý hosting qua cPanel, trong khi nhà cung cấp (reseller) quản lý tất cả hosting bằng WHM.
 
-## 3.2. Server Control Panel
+### 3.2. Server Control Panel
 
-### a. DirectAdmin
+#### a. DirectAdmin
 Bảng điều khiển quản trị Web Hosting phổ biến với giao diện đơn giản, trực quan, dễ sử dụng, đặc biệt cho người ít kinh nghiệm.
 
 **Tính năng**:
@@ -174,7 +215,7 @@ Bảng điều khiển quản trị Web Hosting phổ biến với giao diện �
 - Cộng đồng người dùng nhỏ.
 - Giao diện khá phức tạp với người mới.
 
-### b. aaPanel
+#### b. aaPanel
 Bảng điều khiển miễn phí, quản lý server với giao diện GUI đơn giản, chạy mô hình LEMP/LAMP (Linux, NGINX/Apache, MySQL, PHP). Là phiên bản quốc tế của BAOTA Panel.
 
 **Chức năng**:
@@ -194,10 +235,10 @@ Bảng điều khiển miễn phí, quản lý server với giao diện GUI đơ
 - Không hỗ trợ phân quyền người dùng, chỉ truy cập bằng một tài khoản duy nhất.
 - Phù hợp với VPS cấu hình thấp, không phù hợp cho cấu hình cao.
 
-### c. CyberPanel
+#### c. CyberPanel
 Miễn phí, hỗ trợ Tiếng Việt, sử dụng OpenLiteSpeed làm webserver.
 
-### d. VestaCP
+#### d. VestaCP
 Bảng điều khiển mã nguồn mở miễn phí, dễ cài đặt và cấu hình trên Linux.
 
 **Khi nào nên dùng VestaCP**:
@@ -222,37 +263,37 @@ Hệ thống quản lý nội dung (CMS) mã nguồn mở, giúp tạo và quả
 
 ## 5. iptables
 
-# Lab Triển Khai LEMP & LAMP Stack
+## 6. Lab Triển Khai LEMP & LAMP Stack
 
-## A. Nội dung cần nắm trước khi làm bài Lab
+### A. Nội dung cần nắm trước khi làm bài Lab
 
-### 1. Reverse Proxy
+#### 1. Reverse Proxy
 ![Reverse Proxy Flow](reverse-proxy-flow.png)
 
 Reverse Proxy bản chất là một server tiếp nhận request từ phía Clients, và sau đó nó sẽ điều hướng các requests đến cho phía web server.
 Việc dựng một Reverse Proxy giúp giấu đi địa chỉ IP thực của phía web server, tránh được việc các hacker DDOS đến web server dẫn đến tình trạng quá tải. Ngoài ra ta cũng có thể cấu hình Reverse Proxy load balancing các request đến web server sao cho đảm bảo tài nguyên các từng web server đều được tận dụng ở mức tối ưu nhất.
 
-### 2. Phân biệt giữa static và dynamic website
+#### 2. Phân biệt giữa static và dynamic website
 
-#### 2.1 Static Website
+##### 2.1 Static Website
 Static Website là website tĩnh, nội dung không thay đổi theo thời gian thực. Khi Clients truy cập đến website thì phía web server sẽ trả về các file tĩnh như HTML, CSS, Javascript cho phía Client. Vì các file này là file tĩnh nên phía server không cần phải thực hiện các tác vụ xử lý và nó cũng không cần phải tương tác với database → do đó tốc độ truy cập sẽ nhanh hơn so với Dynamic Website.
 
 Một vài ví dụ về Static Website như: Portfolio Page, Landing Pages, ...
 
-#### 2.2 Dynamic Website
+##### 2.2 Dynamic Website
 Dynamic Website là website động, nội dung thay đổi theo thời gian thực. Website sẽ có backend để xử lý request đến từ Clients (có thể thêm/xóa/sửa/lấy data từ phía database) và trả kết quả về cho người dùng. Vì phía server phải thực hiện các tác vụ để xử lý request nên tốc độ sẽ chậm hơn Static Website. Nhưng đổi lại thì người dùng có thể tương tác, nhận kết quả từ phía web server.
 
 Một vài ví dụ về Dynamic Website như: Ecommerce Website, ...
 
-### 3. LAMP/LEMP stack là gì?
+#### 3. LAMP/LEMP stack là gì?
 
-#### 3.1. LAMP stack
+##### 3.1. LAMP stack
 LAMP stack bao gồm Linux, Apache, MySQL, PHP. Trong đó ta sẽ triển khai Apache như một web server. PHP dùng để dựng nên phía backend và giao tiếp với Database là MySQL để thêm/xóa/cập nhật dữ liệu.
 
-#### 3.2. LEMP stack
+##### 3.2. LEMP stack
 LEMP cũng tương tự như LAMP nhưng thay vì dùng Apache làm Web Server thì ta sẽ dùng Nginx. Nginx sẽ phù hợp với các trường hợp host static web, nhanh và nhẹ hơn so với Apache. Ngược lại thì Apache sẽ phù hợp với việc host web động và nó có thể cấu hình nhiều tính năng hơn so với Nginx.
 
-#### 3.3. Trường hợp sử dụng
+##### 3.3. Trường hợp sử dụng
 
 **Apache** sử dụng cấu trúc processed-based, nghĩa là mỗi yêu cầu sẽ được nó tạo một tiến trình (process) riêng để xử lý cho từng requests. Về lợi thì sẽ giúp các requests được xử lý riêng biệt → ổn định. Về vấn đề phát sinh đó chính là trường hợp cao điểm có nhiều requests đến server thì sẽ dẫn đến tình trạng bị quá tải, vì càng nhiều requests thì càng nhiều process được tạo ra → tốn CPU và Memory
 
@@ -262,37 +303,32 @@ LEMP cũng tương tự như LAMP nhưng thay vì dùng Apache làm Web Server t
 
 → Còn Apache sẽ ổn định hơn khi hosting dynamic web vì nó tạo từng process riêng để xử lý cho từng requests, giúp cô lập trong trường hợp xảy ra lỗi.
 
-#### 3.4. Một trang web có thể vừa static vừa dynamic không ?
-Một trang web có thể vừa static và dynamic. Đối với phía Frontend, ta sẽ dùng các static file như HTML, CSS, Javascripts hoặc ReactJS, VueJS,... Khi Clients tương tác với phía Frontend thì nó sẽ gửi requests đến phía Backend (PHP, Nodejs, Java,...) để xử lý và trả về kết cho phía Frontend để hiển thị cho người dùng
+##### 3.4. Một trang web có thể vừa static vừa dynamic không ?
+Một trang web có thể vừa static và dynamic. Đối với phía Frontend, ta sẽ dùng các static file như HTML, CSS, Javascripts hoặc ReactJS, VueJS,... Khi Clients tương tác với phía Frontend thì nó sẽ gửi requests đến phía Backend (PHP, Nodejs, Java,...) để xử lý và trả về kết quả cho phía Frontend để hiển thị cho người dùng
 
-**Dựa vào những ưu điểm của từng webserver đã nêu trên, ta có thể tận dụng để tối ưu đối với trường hợp website vừa staic vừa dynammic như sau:**
+**Dựa vào những ưu điểm của từng webserver đã nêu trên, ta có thể tận dụng để tối ưu đối với trường hợp website vừa static vừa dynamic như sau:**
 
 → Vì nginx phù hợp cho việc xử nhiều kết nối đồng thời đối với những static files, nên ta sẽ dùng nó để host Frontend Server, nhập các requests từ người dùng. Đối với trường hợp web browser của Clients truy cập vào website để tải về các static files (html,css, javascripts, images, videos, ...) có sẵn ở server Frontend, thì Nginx sẽ trả về cho phía Clients mà không cần gửi requests đến phía Backend Server là Apache → giúp Apache không bị quá tải/tốn CPU, RAM để xử lý.
 
 → Ở phía Backend Server ta sẽ host bằng Apache. Trường hợp người dùng cần tải các file động (PHP scripts,...) thì Nginx sẽ hoạt động như 1 reverse proxy gửi requests đến cho phía Apache để xử lý và trả kết quả lại cho Clients.
 
----
-
-## B. Lab
+### B. Lab
 
 **OS Template sử dụng:** `Ubuntu-Server-22.04-x64`
 
----
+#### I. Triển khai LEMP stack chạy WordPress
 
-### I. Triển khai LEMP stack chạy Wordpress
-
-#### 1. Link kết quả deploy
+##### 1. Link kết quả deploy
 [https://wordpress.caotienminh.software](https://wordpress.caotienminh.software)
 
-#### 2. Từng bước cấu hình
+##### 2. Từng bước cấu hình
 
-##### 2.1. Tải Nginx
+###### 2.1. Tải Nginx
 
 Chạy các câu lệnh sau để tải nginx:
 ```bash
 sudo apt update
 sudo apt install nginx
-```
 
 Chạy 2 câu lệnh sau để enable nginx luôn start ngay cả khi bị reboot:
 ```bash
