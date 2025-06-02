@@ -247,9 +247,9 @@ Hệ thống quản lý nội dung (CMS) mã nguồn mở, giúp tạo và quả
 
 ## 5. iptables
 
-## 6. Lab Triển Khai LEMP & LAMP Stack
+## 6. Lab
 
-### A. Nội dung cần nắm trước khi làm bài Lab
+### 6.1. Nội dung cần nắm trước khi làm bài Lab
 
 #### 1. Reverse Proxy
 ![Reverse Proxy Flow](reverse-proxy-flow.png)
@@ -296,6 +296,210 @@ Một trang web có thể vừa static và dynamic. Đối với phía Frontend,
 
 → Ở phía Backend Server ta sẽ host bằng Apache. Trường hợp người dùng cần tải các file động (PHP scripts,...) thì Nginx sẽ hoạt động như 1 reverse proxy gửi requests đến cho phía Apache để xử lý và trả kết quả lại cho Clients.
 
-### B. Lab
+### 6.2. Từng bước cấu hình
 
 **OS Template sử dụng:** `Ubuntu-Server-22.04-x64`
+# Full Stack Setup Guide
+
+## Outline
+1. MySQL Setup
+2. Laravel Setup
+3. Apache Configuration
+4. WordPress Setup
+5. Nginx Configuration
+6. Laravel API Endpoint
+7. WordPress Plugin for Laravel API
+8. HTTPS and Security Rules
+
+---
+
+# MySQL setup
+
+CREATE DATABASE wordpress_db;  
+CREATE USER 'wordpress_user'@'localhost' IDENTIFIED BY 'secure_password';  
+GRANT ALL PRIVILEGES ON wordpress_db.* TO 'wordpress_user'@'localhost';  
+CREATE DATABASE laravel_db;  
+CREATE USER 'laravel_user'@'localhost' IDENTIFIED BY 'secure_password';  
+GRANT ALL PRIVILEGES ON laravel_db.* TO 'laravel_user'@'localhost';  
+FLUSH PRIVILEGES;  
+EXIT;  
+
+# Laravel  
+composer create-project laravel/laravel /var/www/laravel  
+sudo chown -R www-data:www-data /var/www/laravel  
+sudo chmod -R 755 /var/www/laravel  
+sudo chmod -R 775 /var/www/laravel/storage  
+sudo chmod -R 775 /var/www/laravel/bootstrap/cache  
+cd /var/www/laravel  
+cp .env.example .env  
+vi .env  
+
+# Paste this  
+DB_CONNECTION=mysql  
+DB_HOST=127.0.0.1  
+DB_PORT=3306  
+DB_DATABASE=laravel_db  
+DB_USERNAME=laravel_user  
+DB_PASSWORD=secure_password  
+
+php artisan key:generate  
+
+# Config apache2  
+sudo vi /etc/apache2/ports.conf  
+sudo vi /etc/apache2/sites-available/laravel.conf  
+
+# Paste:  
+<VirtualHost *:8080>  
+    ServerName laravel.caotienminh.software  
+    ServerAlias www.laravel.caotienminh.software  
+    DocumentRoot /var/www/laravel/public  
+
+    <Directory /var/www/laravel/public>  
+        AllowOverride All  
+        Require all granted  
+    </Directory>  
+
+    <FilesMatch \.php$>  
+        SetHandler "proxy:unix:/var/run/php/php8.1-fpm.sock|fcgi://localhost/"  
+    </FilesMatch>  
+</VirtualHost>  
+
+# Bash  
+sudo a2enmod proxy proxy_fcgi  
+sudo a2ensite laravel  
+sudo systemctl restart apache2  
+
+# Wordpress  
+wget https://wordpress.org/latest.zip  
+unzip latest.zip -d /var/www/  
+sudo mv /var/www/wordpress /var/www/wordpress_site  
+
+sudo chown -R www-data:www-data /var/www/wordpress_site  
+sudo chmod -R 755 /var/www/wordpress_site  
+
+# nginx  
+vi /etc/nginx/sites-available/wordpress.conf  
+
+server {  
+    listen 80;  
+    server_name wordpress.caotienminh.software www.wordpress.caotienminh.software;  
+    root /var/www/wordpress_site;  
+    index index.php index.html index.htm;  
+
+    location / {  
+        try_files $uri $uri/ /index.php?$args;  
+    }  
+
+    location ~ \.php$ {  
+        include snippets/fastcgi-php.conf;  
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;  
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;  
+        include fastcgi_params;  
+    }  
+}  
+
+vi /etc/nginx/sites-available/laravel_proxy.conf  
+
+server {  
+    listen 80;  
+    server_name laravel.caotienminh.software www.laravel.caotienminh.software;  
+
+    location / {  
+        proxy_pass http://localhost:8080;  
+        proxy_set_header Host $host;  
+        proxy_set_header X-Real-IP $remote_addr;  
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;  
+        proxy_set_header X-Forwarded-Proto $scheme;  
+    }  
+}  
+
+# symbolic link  
+sudo ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/  
+sudo ln -s /etc/nginx/sites-available/laravel_proxy.conf /etc/nginx/sites-enabled/  
+sudo nginx -t  
+sudo systemctl restart nginx  
+
+sudo apt install php-mysql  
+
+# Continueing setup laravel app:  
+cd /var/www/laravel  
+vi routes/api.php  
+
+# Paste  
+<?php  
+
+use Illuminate\Http\Request;  
+use Illuminate\Support\Facades\Route;  
+
+Route::get('/posts', function () {  
+    return response()->json([  
+        'posts' => [  
+            ['id' => 1, 'title' => 'First Post', 'content' => 'This is the first API post.'],  
+            ['id' => 2, 'title' => 'Second Post', 'content' => 'This is the second API post.'],  
+        ]  
+    ]);  
+});  
+
+sudo a2enmod rewrite  
+systemctl restart apache2  
+
+# Kiem tra thu prefix http://laravel.caotienminh.software:8080/api/posts  
+<include laravel-api.png if using readme.md>  
+
+# Tao page frontend tren wordpress  
+
+1. Tao plugin de curl data tu url http://laravel.caotienminh.software:8080/api/posts  
+mkdir /var/www/wordpress_site/wp-content/plugins/laravel-api  
+cd /var/www/wordpress_site/wp-content/plugins/laravel-api  
+vi laravel-api.php  
+
+# Paste this:  
+<?php  
+/*  
+Plugin Name: Laravel API Integration  
+Description: Fetches posts from a Laravel API and displays them in WordPress.  
+Version: 1.0  
+Author: Your Name  
+*/  
+
+// Shortcode to display Laravel API posts  
+function laravel_api_posts_shortcode() {  
+    $response = wp_remote_get('http://laravel.caotienminh.software/api/posts');  
+    if (is_wp_error($response)) {  
+        return '<p>Error fetching posts: ' . $response->get_error_message() . '</p>';  
+    }  
+
+    $body = wp_remote_retrieve_body($response);  
+    $data = json_decode($body, true);  
+
+    if (empty($data['posts'])) {  
+        return '<p>No posts found.</p>';  
+    }  
+
+    $output = '<ul>';  
+    foreach ($data['posts'] as $post) {  
+        $output .= '<li><strong>' . esc_html($post['title']) . '</strong>: ' . esc_html($post['content']) . '</li>';  
+    }  
+    $output .= '</ul>';  
+
+    return $output;  
+}  
+add_shortcode('laravel_posts', 'laravel_api_posts_shortcode');  
+?>  
+
+# Activate plugin  
+Vao wordpress /wp-admin de activate plugin vua tu tao xong  
+<include anh activate-plugin.png>  
+
+# Tao page voi template nhu sau  
+<include pic wordpress-page.png>  
+
+# Ket qua sau khi tao thanh cong  
+<include lab-final-results.png>  
+
+# Cau hinh https voi certbot  
+# Cho nginx  
+
+# Cau hinh chan truy cap truc tiep den laravel backend  
+--> Tao 1 iptables ma se rejects tat ca requests den port 8080 (port cua backend) ngoai tru requests den tu ip address cua chinh no  
+sudo iptables -I INPUT -p tcp --dport 8080 ! -s  14.225.212.151 -j REJECT --reject-with tcp-reset  
