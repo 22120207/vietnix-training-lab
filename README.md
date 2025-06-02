@@ -304,6 +304,7 @@ Một trang web có thể vừa static và dynamic. Đối với phía Frontend,
 
 # MySQL setup
 
+```sql
 CREATE DATABASE wordpress_db;  
 CREATE USER 'wordpress_user'@'localhost' IDENTIFIED BY 'secure_password';  
 GRANT ALL PRIVILEGES ON wordpress_db.* TO 'wordpress_user'@'localhost';  
@@ -311,9 +312,11 @@ CREATE DATABASE laravel_db;
 CREATE USER 'laravel_user'@'localhost' IDENTIFIED BY 'secure_password';  
 GRANT ALL PRIVILEGES ON laravel_db.* TO 'laravel_user'@'localhost';  
 FLUSH PRIVILEGES;  
-EXIT;  
+EXIT;
+```
 
 # Laravel  
+```bash
 composer create-project laravel/laravel /var/www/laravel  
 sudo chown -R www-data:www-data /var/www/laravel  
 sudo chmod -R 755 /var/www/laravel  
@@ -322,22 +325,30 @@ sudo chmod -R 775 /var/www/laravel/bootstrap/cache
 cd /var/www/laravel  
 cp .env.example .env  
 vi .env  
+```
 
-# Paste this  
+# Dán nội dung sau vào trong file .env
+```
 DB_CONNECTION=mysql  
 DB_HOST=127.0.0.1  
 DB_PORT=3306  
 DB_DATABASE=laravel_db  
 DB_USERNAME=laravel_user  
 DB_PASSWORD=secure_password  
+```
 
+```bash
 php artisan key:generate  
+```
 
-# Config apache2  
+# Config apache2
+```bash
 sudo vi /etc/apache2/ports.conf  
-sudo vi /etc/apache2/sites-available/laravel.conf  
+sudo vi /etc/apache2/sites-available/laravel.conf   
+```
 
-# Paste:  
+# Dán vào file cấu hình của laravel
+```apache
 <VirtualHost *:8080>  
     ServerName laravel.caotienminh.software  
     ServerAlias www.laravel.caotienminh.software  
@@ -352,23 +363,31 @@ sudo vi /etc/apache2/sites-available/laravel.conf
         SetHandler "proxy:unix:/var/run/php/php8.1-fpm.sock|fcgi://localhost/"  
     </FilesMatch>  
 </VirtualHost>  
+```
 
-# Bash  
+# Chạy lệnh sau  
+```bash
 sudo a2enmod proxy proxy_fcgi  
 sudo a2ensite laravel  
-sudo systemctl restart apache2  
+sudo systemctl restart apache2
+```
 
-# Wordpress  
+# Wordpress Setup
+```bash
 wget https://wordpress.org/latest.zip  
 unzip latest.zip -d /var/www/  
 sudo mv /var/www/wordpress /var/www/wordpress_site  
 
 sudo chown -R www-data:www-data /var/www/wordpress_site  
-sudo chmod -R 755 /var/www/wordpress_site  
+sudo chmod -R 755 /var/www/wordpress_site
+```
 
-# nginx  
-vi /etc/nginx/sites-available/wordpress.conf  
+# Cấu hình Nginx cho Wordpress
+```bash
+vi /etc/nginx/sites-available/wordpress.conf
+```
 
+```nginx
 server {  
     listen 80;  
     server_name wordpress.caotienminh.software www.wordpress.caotienminh.software;  
@@ -387,34 +406,28 @@ server {
     }  
 }  
 
-vi /etc/nginx/sites-available/laravel_proxy.conf  
+```
 
-server {  
-    listen 80;  
-    server_name laravel.caotienminh.software www.laravel.caotienminh.software;  
-
-    location / {  
-        proxy_pass http://localhost:8080;  
-        proxy_set_header Host $host;  
-        proxy_set_header X-Real-IP $remote_addr;  
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;  
-        proxy_set_header X-Forwarded-Proto $scheme;  
-    }  
-}  
-
-# symbolic link  
+# Tạo symbolic link  
+```bash
 sudo ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/  
-sudo ln -s /etc/nginx/sites-available/laravel_proxy.conf /etc/nginx/sites-enabled/  
 sudo nginx -t  
-sudo systemctl restart nginx  
+sudo systemctl restart nginx
+```  
 
-sudo apt install php-mysql  
+# Tải mysqli
+```bash
+sudo apt install php-mysql
+```
 
-# Continueing setup laravel app:  
+# Cấu hình routes API cho laravel  
+```bash
 cd /var/www/laravel  
-vi routes/api.php  
+vi routes/api.php
+```
 
-# Paste  
+# Dán vào file api.php  
+```php
 <?php  
 
 use Illuminate\Http\Request;  
@@ -428,21 +441,28 @@ Route::get('/posts', function () {
         ]  
     ]);  
 });  
+```
 
+# Chạy lệnh sau để áp dụng cấu hình cho apache2
+```bash
 sudo a2enmod rewrite  
-systemctl restart apache2  
+systemctl restart apache2
+```
 
-# Kiem tra thu prefix http://laravel.caotienminh.software:8080/api/posts  
-<include laravel-api.png if using readme.md>  
+# Kiểm tra thử prefix http://laravel.caotienminh.software:8080/api/posts  
+![LARAVEL API](laravel-api.png)
 
-# Tao page frontend tren wordpress  
+# Tạo page Frontend trên Wordpress
 
-1. Tao plugin de curl data tu url http://laravel.caotienminh.software:8080/api/posts  
+## Tạo plugin để curl data từ url http://laravel.caotienminh.software:8080/api/posts  
+```bash
 mkdir /var/www/wordpress_site/wp-content/plugins/laravel-api  
 cd /var/www/wordpress_site/wp-content/plugins/laravel-api  
-vi laravel-api.php  
+vi laravel-api.php
+```
 
-# Paste this:  
+## Dán vào file laravel-api.php
+```php
 <?php  
 /*  
 Plugin Name: Laravel API Integration  
@@ -474,21 +494,22 @@ function laravel_api_posts_shortcode() {
     return $output;  
 }  
 add_shortcode('laravel_posts', 'laravel_api_posts_shortcode');  
-?>  
+?>
+```
 
 # Activate plugin  
-Vao wordpress /wp-admin de activate plugin vua tu tao xong  
-<include anh activate-plugin.png>  
+Vào wordpress /wp-admin đeer activate plugin vừa tạo xong  
+![ACTIVATE PLUGIN](activate-plugin.png)
 
-# Tao page voi template nhu sau  
-<include pic wordpress-page.png>  
+# Tao page voi template nhu sau 
+![WORDPRESS PAGE](wordpress-page.png)
 
-# Ket qua sau khi tao thanh cong  
-<include lab-final-results.png>  
+# Kết quả sau khi tạo thành công
+![LAB FINAL RESULTS](lab-final-results.png)
 
-# Cau hinh https voi certbot  
-# Cho nginx  
+# Cấu hình HTTPS cho frontend (https://wordpress.caotienminh.software) 
+sudo certbot --nginx
 
-# Cau hinh chan truy cap truc tiep den laravel backend  
---> Tao 1 iptables ma se rejects tat ca requests den port 8080 (port cua backend) ngoai tru requests den tu ip address cua chinh no  
+# Cấu hình chặn truy cập trực tiếp đến http://laravel.caotienminh.software
+--> Tạo 1 iptables mà nó sẽ rejects tất cả requests đến port 8080 (port của backend) ngoại trừ requests đến từ ip address của chính nó  
 sudo iptables -I INPUT -p tcp --dport 8080 ! -s  14.225.212.151 -j REJECT --reject-with tcp-reset  
