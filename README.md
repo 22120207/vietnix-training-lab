@@ -299,17 +299,6 @@ Một trang web có thể vừa static và dynamic. Đối với phía Frontend,
 ### 6.2. Từng bước cấu hình
 
 **OS Template sử dụng:** `Ubuntu-Server-22.04-x64`
-# Full Stack Setup Guide
-
-## Outline
-1. MySQL Setup
-2. Laravel Setup
-3. Apache Configuration
-4. WordPress Setup
-5. Nginx Configuration
-6. Laravel API Endpoint
-7. WordPress Plugin for Laravel API
-8. HTTPS and Security Rules
 
 ---
 
