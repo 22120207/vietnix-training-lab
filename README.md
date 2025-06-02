@@ -19,8 +19,8 @@
 - [4. WordPress Hosting](#4-wordpress-hosting)
 - [5. iptables](#5-iptables)
 - [6. Lab](#6-lab)
-  - [6.1. Nội dung cần nắm trước khi làm bài lab](#61-ni-dung-can-nam-truoc-khi-lam-bai-lab)
-  - [6.2. Từng bước cấu hình](#62-tung-buoc-cau-hinh)
+  - [6.1. Nội dung cần nắm trước khi làm bài lab](#61-nội-dung-cần-nắm-trước-khi-làm-bài-lab)
+  - [6.2. Từng bước cấu hình](#62-từng-bước-cấu-hình)
 
 ## 1. Các sản phẩm cơ bản của Vietnix
 
