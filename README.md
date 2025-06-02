@@ -514,7 +514,9 @@ Vào wordpress /wp-admin đeer activate plugin vừa tạo xong
 ![LAB FINAL RESULTS](lab-final-results.png)
 
 ###### Cấu hình HTTPS cho frontend (https://wordpress.caotienminh.software) 
+```bash
 sudo certbot --nginx
+```
 
 ##### Cấu hình chặn truy cập trực tiếp đến http://laravel.caotienminh.software
 --> Tạo 1 iptables mà nó sẽ rejects tất cả requests đến port 8080 (port của backend) ngoại trừ requests đến từ ip address của chính nó  
