@@ -518,4 +518,6 @@ sudo certbot --nginx
 
 ##### Cấu hình chặn truy cập trực tiếp đến http://laravel.caotienminh.software
 --> Tạo 1 iptables mà nó sẽ rejects tất cả requests đến port 8080 (port của backend) ngoại trừ requests đến từ ip address của chính nó  
+```bash
 sudo iptables -I INPUT -p tcp --dport 8080 ! -s  14.225.212.151 -j REJECT --reject-with tcp-reset  
+```
