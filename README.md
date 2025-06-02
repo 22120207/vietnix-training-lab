@@ -1,3 +1,198 @@
+# Training Notes
+
+## 1. Các sản phẩm cơ bản của Vietnix
+### a. Hosting -> cung cap tnguyen may chu de luu tru website
+Shared Hosting -> Dung chung may chu
+Dedicated Hosting -> thue 1 may vly , toan quyen kiem soat
+### b. VPS Hosting --> Shared + Dedicated, dung chung 1 may vly nhung duoc chia nho ra
+VPS --> Cung cap 1 may ao hoat dong nhu 1 may vly
+### c. Domain
+DNS --> hệ thống chuyển đổi tên miền thành địa chỉ IP của máy chủ.
+### d. DNS - Domain Name System
+DNS Record
+    + CNAME Record: Là một bản ghi tên quy chuẩn (Canonical Name Record). Đây là một dạng bản ghi tài nguyên trong hệ thống tên miền.
+      được dùng để đặt bí danh cho tên domain này bằng một cái tên miền khác. Vi du A record cho vietnix.vn -> IP server. Sau do CNAME Record www.vietnix.vn -> vietnix.vn
+    + A Record: Dùng để trỏ tên miền website tới một địa chỉ IP cụ thể.
+    + MX Record: Bản ghi này bạn có thể sử dụng để trỏ tên miền đến mail server.
+    + AAAA Record: Dùng để trỏ tên miền đến địa chỉ IPv6, TTL và IPv6.
+--> TTL: Time to live (TTL) là thời gian một đối tượng được lưu trữ trong hệ thống bộ nhớ đệm trước khi nó bị xóa hoặc làm mới. Trong trường hợp của CDN, Time to live thường đề cập đến bộ nhớ đệm nội dung, là quá trình lưu trữ bản sao tài nguyên trang web của bạn trên proxy CDN để cải thiện tốc độ tải trang và giảm tiêu thụ băng thông của server gốc.
+    + TXT Record: Ngoài ra, có thể thêm giá trị TXT, Host mới, TTL và Point To để chứa các thông tin định dạng văn bản domain.
+    + SRV Record: Đây là bản ghi DNS đặc biệt, dùng để xác định chính xác dịch vụ nào đang chạy Port nào. Và thông qua bản ghi này bạn có thể thêm Priority, Port, Weight, TTL, Point to Point.
+    + NS Record: Bản ghi này có thể chỉ định Name Server cho từng tên miền phụ và bên cạnh đó có thể tạo tên Name Server, TTL hay host mới.
+Loai NS:
+    + Root Name Server: một dịch vụ phân giải tên miền gốc và trên thế giới có khoảng 12 DNS root Server. Quản lý tất cả các tên miền Top-level. Khi có yêu cầu phân giải một Domain Name thành một địa chỉ IP, client sẽ gửi yêu cầu đến DNS gần nhất (DNS ISP). DNS ISP sẽ kết nối tới DNS root Server để hỏi địa chỉ của Domain Name.
+    + Local Name Server: ùng để chứa thông tin để truy xuất và tìm kiếm máy chủ tên miền
+    + DNS Recursor: có nhiệm vụ chuyển đổi tên miền thành địa chỉ IP.
+    + DNS Recursor: khi người dùng nhập một tên miền, DNS Recursor sẽ tìm kiếm thông tin đó trong cơ sở dữ liệu của mình. Nếu không tìm thấy, nó sẽ liên hệ với các DNS Recursor khác để tìm kiếm. DNS Recursor cũng sử dụng bộ nhớ đệm để lưu trữ thông tin về các tên miền mà nó đã từng truy cập.
+    + TLD Name Server (Top Level Domain): máy chủ tên miền cấp cao nhất, chịu trách nhiệm lưu trữ thông tin về các tên miền có phần mở rộng chung (gTLD), chẳng hạn như .com, .org, .net
+    + Authoritative Name Server: lưu trữ thông tin về tên miền và địa chỉ IP tương ứng. Là điểm cuối của quá trình truy vấn và phân giải địa chỉ IP cần thiết cho DNS Recursor.
+SLides of 1:
+Colocation: DOanh nghiep mua tbi, router,... nhung dat trong co so cua nha cung cap dich vu
+
+## 2.1. Cpanel
+--> cPanel is a widely used, Linux-based web hosting control panel that provides a user-friendly graphical interface for managing websites and server resources
+TInh nang:
+- Email: 
+    + Tạo email, xóa email, kiểm tra email, quản lý email, cấu hình email cho mail client.
+    + Forwarders: forward Email đến 1 email khác. Ví dụ forward các email gửi đến test1@hosting.com (email trên hosting) → tech@vietnix.vn
+    + Email Routing: route mail nhan -> 1 server cu the (phai luon set local mail exchange)
+    + Autoresponders: Cấu hình trả lời Email tự động.
+    + Default Address: Nơi cấu hình Catch-all Email. Explain: Thay vì khi nhận Hosting nhận được một email đến 1 địa chỉ không tồn tại trên hosting thì nó sẽ trả về cho người gửi thông báo “No Such User Here“, thì khi cấu hình Default Address Hosting sẽ gửi các email đó đến email default.
+    + Mailling Lists: Chức năng của Mailling List là khi có một email gửi tới tech@vietnix.vn thì sẽ được gửi đồng thời đến tất cả email trong group.
+    + Track Delivery: Theo dõi trạng thái của email gửi ra.
+    + Global Email Filters: Filter email với toàn bộ email account trên Hosting
+    + Email Filters: Filter email với từng email account trên Hosting
+    + Email Deliverablity: Kiểm tra, lấy cấu hình DKIM, SPF, PTR đối với domain email trên Hosting
+    + Address Importer: Import danh sách email account lên Hosting. Bạn có thể tạo nhanh 1 list email trên hosting bằng cách tạo 1 file .csv, Với email user, password, disk quota
+    + Spam Filters
+    + BoxTrapper: Xác thực người gửi, Blacklist & Whitelist, Xử lý thư rác, Quản lý danh sách liên hệ
+    + Email Disk Usage Thống kê disk của từng email
+    + ASSP Antispam: Diều chỉnh giá trị spam score, từ lowest → highest. Hoặc bật tắt tính năng này cho từng domain email. Delaying filter
+- File:
+    + File Manager: Upload file, xóa, sửa file, nén, giải nén. Ngoài ra để hiển thị file ẩn (.htaccess, .env…)
+    + Images: Công cụ convert, edit hình ảnh của cPanel
+    + Directory Privacy: Cài đặt user/pass cho các thư mục trên cPanel → Tương tự htpasswd
+    + Disk Usage: Thống lê disk đang sử dụng
+    + Web Disk: Quản lý dữ liệu trên web, tương tự như google drive, onedrive. Web disk hỗ trợ giao thức webdav để truyền tải.
+    + FTP Accounts: Tạo tài khoản ftp account, hỗ trợ phân quyền tài khoản cho thư mục
+    + Backup & Backup Wizard: Backup của cPanel → Không sử dụng
+    + Git Version Control: Làm việc với github, tự động pull code khi có update code mới trên repo
+    + JetBackup 5:
+        --> Full backups: Ðây là các bản backup full, khi restore lại sẽ restore toàn bộ hosting, bao gồm database, source, ssl,…
+        --> Home Directory: Ðây là backup file, có thể lựa chọn riêng từng file để restore
+        --> Databases: Restore database
+- Database:
+    + phpMyAdmin: tk login la tk MySQL
+    + MySQL Databases: tao db, user, grant quyen
+    + MySQL Database Wizard: Hỗ trợ tạo Database step-by-step. Giúp người tạo không bị quên các bước như tạo user, add user vào database, grant quyền
+    + Remote MySQL Bật remote Mysql đối với database
+- Domain:
+    + WP Toolkit: tai theme wordpress, plugin
+    + Site Publisher: Tạo nhanh 1 website bằng template có sẵn của cPanel
+    + Domains: Thêm, xóa domain
+    + Redirects: Redirect domain
+    + Zone Editor: Sau khi trỏ NS về Hosting thì có thể điều chỉnh các record ở đây. NS của hosting có dạng, ví dụ host212.vietnix.vn
+    + Dynamic DNS: Sau khi tạo cPanel sẽ cấp cho mình 1 Url. Khi muốn cập nhật NS cho subdomain này thì chỉ cần curl đến URL này.
+    + IP Manager (chỉ có trên Hosting SEO): Dùng để đổi IP cho các domain
+- Metrics: 
+    + Visitors: Access-logs. Có thể dùng để xác định hosting đang bị đánh.
+    + Errors: Apache Error Logs
+    + Bandwidth: Thống kê traffic từng ngày theo từng domain.
+    + Raw Access: Cho phép download raw access log. Nếu khách cần log có thể nói khách vào đây để download.
+    + Resource Usage: 
+        --> Server chạy cloudlinux sẽ có mục này, các giá trị cần tìm hiểu:
+            . SPEED: CPU Hosting
+            . PMEM: Ram Hosting
+            . IO: I/O Hosting
+            . EP: Số lượng connect tối đa
+            . NPROC: Số lượng Process tối đa
+            . IOPS: I/O per second Hosting
+- Security:
+    + SSH Access: SSH lên hosting, có thể cho phép add ssh key
+    + IP Blocker: Block ip không cho truy cập vào website của bạn
+    + SSL/TLS: Quản lý SSL Server
+    + Manage API Tokens: Tạo API Key để tương tác với cPanel
+    + Hotlink & Leech Protection: Hotlink Protection: Giúp chặn các website khác chèn các directlink hình ảnh, file download của mình trên website của họ.
+    + Leech Protection: Tính này liên quan đến phần Directory Privacy ở trên. Ví dụ sau khi tạo user/pass được phép truy cập vào 1 folder nào đó trên hosting. Mà user đó bị lộ pass và bị truy cập nhiều lần vào folder đó thì sẽ bị chặn và redirect đến 1 link khác hoặc thông báo cho admin.
+    + SSL/TLS Status: Cài đặt AutoSSL
+    + Two-Factor Authentication
+    + Imunify360: Quét virus, quá trình quét virus là tự động
+- Software
+    + Wordpress Manager by Softaculous: Tạo wordpress tự động, tương tự như Wordpress Toolkit
+    + PHP PEAR Packages: Gói PEAR thường dùng để chạy trong PHP.
+    + Perl Modules: mô-đun PERL được tạo nhằm giúp bạn có thể tạo các tác vụ PERL.
+    + Site Software: Với phần mềm bổ sung thêm như Bảng thương mại điện tử và Bảng tin.
+    + Optimize Website: Web Server Apache sẽ tối ưu thời gian phản hồi.
+    + Application Manager: Tính năng này cho phép bạn đăng ký, quản lý và triển khai các ứng dụng tùy chỉnh của mình bằng Phusion Passenger.
+    + MultiPHP Manager (hỗ trợ bởi cPanel): Có thể tùy chọn các phiên bản PHP khác nhau cho từng website.
+    + MultiPHP INI Editor (hỗ trợ bởi cPanel): Bật tắt các biến môi trường php ở đây.
+    + Softaculous Apps Installer: Cài đặt app bằng 1 click. Ví dụ: Wordpress, Laravel, Moodle, NextCloud,…
+    + Setup Node.js APP: Cài đặt nodeJS App
+    + Select PHP Version (hỗ trợ bởi cloudlinux): Có thể tùy chọn các phiên bản PHP khác nhau cho từng website.
+- Advanced
+    + LiteSpeed Web Cache Manager: Nếu khách có dùng LSCache plugin thì mình có thể hỗ
+    + trợ khách flush cache từ giao diện cPanel.
+    + Terminal: được dùng để chạy các lệnh terminal.
+    + Cron Jobs: Các nhiệm vụ lặp đi lặp lại được tự động hóa vào thời gian đã lên lịch. chẳng hạn như: tạo hóa đơn vào 12:00 hàng ngày.
+    + Track DNS: Truy tìm tuyến đường từ PC đến máy chủ nhằm kiểm tra cài đặt DNS.
+    + Indexes: Nhằm tùy chỉnh trang chỉ mục Apache mặc định.
+    + Error Pages: Giúp định cấu hình cách của các trang lỗi xuất hiện cho khách khi truy cập.
+    + Apache Handlers: Ðây là các lựa chọn xử lý của Apache.
+    + MIME Types: Dùng để hướng dẫn để xử lý với các phần mở rộng tệp khác nhau, chẳng hạn như: .html, .htm.
+
+## 2.2. WHM
+-->  WHM (WebHost Manager) provides administrative control over your dedicated server or VPS. It allows a hosting provider to manage a customer’s account. WHM is also a reseller control panel. It is what our customers receive with all Reseller hosting plans and use to manage all their resold hosting accounts in their reseller plans. However, a reseller has restricted reseller rights in WHM comparing to VPS and Dedicated Servers WHM (root user rights), so some functions are not available for them:.
+
+--> cPanel manage a website (for people who is non-tech). --> WHM: managed multiple website, create cPanel account. WHM is for entirn Server 
+
+TInh nang:
+    + Primary Domain
+    + Migrate và Transfer: Từ server cần migrate đến, vào Transfer Tool → Ðiền IP của server cũ vào ô Remote Server Address
+
+## 3.1. Web Panel
+
+--> My thought: "FIrst, hosting web service is a service that multiple server of producer act as a host and allow user to host their websites on it, user can control their host with cPanel. ANd the producer controll all web hosting with WHM"
+
+## 3.2. Server COntrol Panel
+### a. Direct Admin: --> co phi
+    + một trong số những Bảng điều khiển (Control Panel) dành cho người quản trị Web Hosting được sử dụng phổ biến hiện nay với giao diện đơn giản, trực quan, dễ dàng sử dụng. DirectAdmin được thiết kế để dễ dàng thực hiện các công việc hàng ngày của webmaster, đặc biệt là những người có ít hoặc không có kinh nghiệm trước đó.
+    + domain, subdomain, DNS, FTP và cơ sở dữ liệu MySQL
+    + chạy rất tốt trong Linux và các bản phân phối chính của nó – CloudLinux, CentOS, Ubuntu, Debian, Red Had
+--> Ưu điểm: Giao diện trực quan, sử dụng đơn giản, Gói đăng ký giá cả phải chăng. 
+    Hỗ trợ: Ngoài sự hỗ trợ của nhà cung cấp dịch vụ lưu trữ, bạn cũng có thể nhận được sự hỗ trợ trực tiếp từ các kỹ thuật viên của DirectAdmin. Người dùng trên gói Lite và Standard có thể   được hưởng lợi từ hệ thống ticket bên trong bảng điều khiển.
+    Tính ổn định, phục hồi sự cố tự động. 
+    Tốc độ xử lý nhanh, ít tiêu tốn tài nguyên:
+    Hỗ trợ nhiều phân cấp user, Manual configuration
+--> Nhược điểm: Khả năng thêm các chức năng rất hạn chế.
+    Khả năng chỉnh sửa file: DirectAdmin không tương thích với dòng font unicode (khong tuong thich voi ngon ngu k la tieng anh)
+    Cộng đồng người dùng ít
+    Giao diện khá nâng cao với người dùng
+### b. aaPanel:
+--> control panel miễn phí, cho phép người dùng quản lý server với giao diện GUI đơn giản. DE chay mo hinh LEMP/LAMP (Linux, NGINX/APache, MySQL, Php)
+--> Ban QUoc te cua BAOTA Panel 
+
+- Chức năng
+    + một số chức năng cơ bản nhất như: quản lý web, Database, FTP và File
+- Ưu nhược điểm:
+    - Ưu điểm:
+        + nhe (512MB RAM)
+        + Người dùng có thể cài đặt aaPanel và sử dụng dễ dàng chỉ bằng một vài thao tác chuột đơn giản.
+        + cho phép bạn can thiệp, chỉnh sửa cấu hình PHP hay Webserver trực tiếp trên giao diện một cách nhanh chóng
+        + có thể cài đặt Redis, Memcached, Google Drive,… chỉ bằng một lần click chuột
+        + quản lý tập tin thông qua File Manager với giao diện thân thiện, đẹp mắt, hỗ trợ code editor đơn giản, tiện lợi
+        + backup web lên trên Google Drive, FTP, Amazon S3
+        + có cộng đồng người dùng tương đối nhiều
+    - Nhược điểm:
+        + Cấu hình thiết lập sẵn cho MySQL/MariaDB hơi cao nên thường xuyên xảy ra tình trạng MySQL tự tắt mà không thể khởi động lại được
+        + chưa hỗ trợ tính năng phân quyền người dùng, bạn chỉ có thể truy cập vào bảng điều khiển thông qua 1 tài khoản duy nhất
+        + chỉ phù hợp với những VPS có cấu hình thấp, ít gây lỗi vặt nhưng lại đủ mạnh mẽ để sử dụng cho cá nhân. Còn những cấu hình cao hơn, bạn cần phải tìm đến một dịch vụ control panel khác.
+
+### c. Cyber Panel
+--> miễn phí và hỗ trợ Tiếng Việt sử dụng OpenLiteSpeed làm webserver
+### d. VestaCP
+--> Vesta Control Panel: mã nguồn mở miễn phí, dễ cài đặt và cấu hình bảng điều khiển dựa trên nền tảng web cho các hệ thống như Linux. Với bất kỳ ai dùng VestaCP,
+ngay cả quản trị viên hệ thống mới cũng có thể dễ dàng quản lý các trang web trong VPS.
+- Khi nào nên dùng VestaCP?
+VestaCP chủ yếu phục vụ cho người dùng với những nhu cầu cơ bản dưới đây:
+    ● Dùng dịch vụ web và mã nguồn được viết thông qua ngôn ngữ PHP hoặc cơ sở dữ liệu Mysql.
+    ● Áp dụng vào các dịch vụ về Email như: Mail server, webmail,…
+    ● Dùng cho những dịch vụ thuộc DNS.
+    ● Cấu hình sao lưu tự động hoặc thủ công, restore lại dữ liệu cho từng ứng dụng khác nhau.
+    ● Cấu hình firewall cho server
+    ● Dùng dịch vụ FTP để upload, download.
+    ● Phân bổ, chia sẻ dữ liệu hoặc tài nguyên, phân quyền cho từng người dùng khác nhau.
+
+## 4. WOrdpress HOsting
+--> Là một hệ thống quản lý nội dung (CMS) mã nguồn mở, giúp người dùng dễ dàng tạo và quản lý trang web mà không cần kiến thức code
+- Van de:
+    + Web chậm và điểm Pagespeed: CO the dung liteSpeed Cache, CDN, SEO (rank math), ccu nen hinh anh (toi uu HTML, CSS, JS)
+--> QUa nhieu plugin -> xung dot & giam hieu suat & bao mat
+    --> Cach giai quyet la go plugin k can thiet, cap nhat plugin thuong xuyen, kiem tra tuong thich
+
+## 5. iptables
+
+---
+
 # Lab Triển Khai LEMP & LAMP Stack
 
 ## A. Nội dung cần nắm trước khi làm bài Lab
