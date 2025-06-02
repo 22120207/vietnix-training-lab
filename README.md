@@ -126,9 +126,7 @@ cPanel là bảng điều khiển lưu trữ web dựa trên Linux, cung cấp g
 - **Optimize Website**: Tối ưu thời gian phản hồi của Apache Web Server.
 - **Application Manager**: Đăng ký, quản lý, triển khai ứng dụng tùy chỉnh bằng Phusion Passenger.
 - **MultiPHP Manager**: Chọn phiên bản PHP khác nhau cho từng website.
-- **MultiPHP IN
-
-I Editor**: Bật/tắt các biến môi trường PHP.
+- **MultiPHP INI Editor**: Bật/tắt các biến môi trường PHP.
 - **Softaculous Apps Installer**: Cài đặt ứng dụng (WordPress, Laravel, Moodle, NextCloud,...) bằng một click.
 - **Setup Node.js App**: Cài đặt ứng dụng Node.js.
 - **Select PHP Version** (hỗ trợ bởi CloudLinux): Chọn phiên bản PHP khác nhau cho từng website.
