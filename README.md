@@ -1,7 +1,5 @@
 # Training Notes
 
----
-
 # Các sản phẩm và dịch vụ cơ bản của Vietnix
 
 ## 1. Các sản phẩm cơ bản của Vietnix
