@@ -302,7 +302,10 @@ Một trang web có thể vừa static và dynamic. Đối với phía Frontend,
 
 ---
 
-# MySQL setup
+##### Workflow của bài lab
+![WORK-FLOW](work-flow.png)
+
+##### MySQL setup
 
 ```sql
 CREATE DATABASE wordpress_db;  
@@ -315,7 +318,7 @@ FLUSH PRIVILEGES;
 EXIT;
 ```
 
-# Laravel  
+##### Laravel  
 ```bash
 composer create-project laravel/laravel /var/www/laravel  
 sudo chown -R www-data:www-data /var/www/laravel  
@@ -327,7 +330,7 @@ cp .env.example .env
 vi .env  
 ```
 
-# Dán nội dung sau vào trong file .env
+##### Dán nội dung sau vào trong file .env
 ```
 DB_CONNECTION=mysql  
 DB_HOST=127.0.0.1  
@@ -341,13 +344,13 @@ DB_PASSWORD=secure_password
 php artisan key:generate  
 ```
 
-# Config apache2
+##### Config apache2
 ```bash
 sudo vi /etc/apache2/ports.conf  
 sudo vi /etc/apache2/sites-available/laravel.conf   
 ```
 
-# Dán vào file cấu hình của laravel
+##### Dán vào file cấu hình của laravel
 ```apache
 <VirtualHost *:8080>  
     ServerName laravel.caotienminh.software  
@@ -365,14 +368,14 @@ sudo vi /etc/apache2/sites-available/laravel.conf
 </VirtualHost>  
 ```
 
-# Chạy lệnh sau  
+##### Chạy lệnh sau  
 ```bash
 sudo a2enmod proxy proxy_fcgi  
 sudo a2ensite laravel  
 sudo systemctl restart apache2
 ```
 
-# Wordpress Setup
+##### Wordpress Setup
 ```bash
 wget https://wordpress.org/latest.zip  
 unzip latest.zip -d /var/www/  
@@ -382,7 +385,7 @@ sudo chown -R www-data:www-data /var/www/wordpress_site
 sudo chmod -R 755 /var/www/wordpress_site
 ```
 
-# Cấu hình Nginx cho Wordpress
+##### Cấu hình Nginx cho Wordpress
 ```bash
 vi /etc/nginx/sites-available/wordpress.conf
 ```
@@ -408,25 +411,25 @@ server {
 
 ```
 
-# Tạo symbolic link  
+##### Tạo symbolic link  
 ```bash
 sudo ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/  
 sudo nginx -t  
 sudo systemctl restart nginx
 ```  
 
-# Tải mysqli
+##### Tải mysqli
 ```bash
 sudo apt install php-mysql
 ```
 
-# Cấu hình routes API cho laravel  
+##### Cấu hình routes API cho laravel  
 ```bash
 cd /var/www/laravel  
 vi routes/api.php
 ```
 
-# Dán vào file api.php  
+##### Dán vào file api.php  
 ```php
 <?php  
 
@@ -443,25 +446,25 @@ Route::get('/posts', function () {
 });  
 ```
 
-# Chạy lệnh sau để áp dụng cấu hình cho apache2
+##### Chạy lệnh sau để áp dụng cấu hình cho apache2
 ```bash
 sudo a2enmod rewrite  
 systemctl restart apache2
 ```
 
-# Kiểm tra thử prefix http://laravel.caotienminh.software:8080/api/posts  
+##### Kiểm tra thử prefix http://laravel.caotienminh.software:8080/api/posts  
 ![LARAVEL API](laravel-api.png)
 
-# Tạo page Frontend trên Wordpress
+##### Tạo page Frontend trên Wordpress
 
-## Tạo plugin để curl data từ url http://laravel.caotienminh.software:8080/api/posts  
+###### Tạo plugin để curl data từ url http://laravel.caotienminh.software:8080/api/posts  
 ```bash
 mkdir /var/www/wordpress_site/wp-content/plugins/laravel-api  
 cd /var/www/wordpress_site/wp-content/plugins/laravel-api  
 vi laravel-api.php
 ```
 
-## Dán vào file laravel-api.php
+###### Dán vào file laravel-api.php
 ```php
 <?php  
 /*  
@@ -497,19 +500,19 @@ add_shortcode('laravel_posts', 'laravel_api_posts_shortcode');
 ?>
 ```
 
-# Activate plugin  
+###### Activate plugin  
 Vào wordpress /wp-admin đeer activate plugin vừa tạo xong  
 ![ACTIVATE PLUGIN](activate-plugin.png)
 
-# Tao page voi template nhu sau 
+###### Tạo page với template như sau
 ![WORDPRESS PAGE](wordpress-page.png)
 
-# Kết quả sau khi tạo thành công
+###### Kết quả sau khi tạo thành công
 ![LAB FINAL RESULTS](lab-final-results.png)
 
-# Cấu hình HTTPS cho frontend (https://wordpress.caotienminh.software) 
+###### Cấu hình HTTPS cho frontend (https://wordpress.caotienminh.software) 
 sudo certbot --nginx
 
-# Cấu hình chặn truy cập trực tiếp đến http://laravel.caotienminh.software
+##### Cấu hình chặn truy cập trực tiếp đến http://laravel.caotienminh.software
 --> Tạo 1 iptables mà nó sẽ rejects tất cả requests đến port 8080 (port của backend) ngoại trừ requests đến từ ip address của chính nó  
 sudo iptables -I INPUT -p tcp --dport 8080 ! -s  14.225.212.151 -j REJECT --reject-with tcp-reset  
