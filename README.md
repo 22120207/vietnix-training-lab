@@ -12,13 +12,21 @@ DNS --> hệ thống chuyển đổi tên miền thành địa chỉ IP của m�
 DNS Record
     + CNAME Record: Là một bản ghi tên quy chuẩn (Canonical Name Record). Đây là một dạng bản ghi tài nguyên trong hệ thống tên miền.
       được dùng để đặt bí danh cho tên domain này bằng một cái tên miền khác. Vi du A record cho vietnix.vn -> IP server. Sau do CNAME Record www.vietnix.vn -> vietnix.vn
+      
     + A Record: Dùng để trỏ tên miền website tới một địa chỉ IP cụ thể.
+    
     + MX Record: Bản ghi này bạn có thể sử dụng để trỏ tên miền đến mail server.
+    
     + AAAA Record: Dùng để trỏ tên miền đến địa chỉ IPv6, TTL và IPv6.
+    
 --> TTL: Time to live (TTL) là thời gian một đối tượng được lưu trữ trong hệ thống bộ nhớ đệm trước khi nó bị xóa hoặc làm mới. Trong trường hợp của CDN, Time to live thường đề cập đến bộ nhớ đệm nội dung, là quá trình lưu trữ bản sao tài nguyên trang web của bạn trên proxy CDN để cải thiện tốc độ tải trang và giảm tiêu thụ băng thông của server gốc.
+
     + TXT Record: Ngoài ra, có thể thêm giá trị TXT, Host mới, TTL và Point To để chứa các thông tin định dạng văn bản domain.
+    
     + SRV Record: Đây là bản ghi DNS đặc biệt, dùng để xác định chính xác dịch vụ nào đang chạy Port nào. Và thông qua bản ghi này bạn có thể thêm Priority, Port, Weight, TTL, Point to Point.
+    
     + NS Record: Bản ghi này có thể chỉ định Name Server cho từng tên miền phụ và bên cạnh đó có thể tạo tên Name Server, TTL hay host mới.
+    
 Loai NS:
     + Root Name Server: một dịch vụ phân giải tên miền gốc và trên thế giới có khoảng 12 DNS root Server. Quản lý tất cả các tên miền Top-level. Khi có yêu cầu phân giải một Domain Name thành một địa chỉ IP, client sẽ gửi yêu cầu đến DNS gần nhất (DNS ISP). DNS ISP sẽ kết nối tới DNS root Server để hỏi địa chỉ của Domain Name.
     + Local Name Server: ùng để chứa thông tin để truy xuất và tìm kiếm máy chủ tên miền
