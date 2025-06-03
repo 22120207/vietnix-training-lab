@@ -176,7 +176,7 @@ WHM (WebHost Manager) cung cấp quyền kiểm soát quản trị cho máy ch�
 ## 3. Web and Server Control Panels
 
 ### 3.1. Web Panel
-**Kết luận**: Dịch vụ hosting web là dịch vụ mà nhiều máy chủ của nhà cung cấp đóng vai trò host, cho phép người dùng lưu trữ website trên đó. Người dùng quản lý hosting qua cPanel, trong khi nhà cung cấp (reseller) quản lý tất cả hosting bằng WHM.
+**Kết luận**: Dịch vụ hosting web là dịch vụ mà nhiều máy chủ của nhà cung cấp đóng vai trò host, cho phép người dùng lưu trữ website trên đó. Người dùng quản lý hosting qua cPanel, trong khi nhà cung cấp (hoặc reseller) quản lý tất cả hosting bằng WHM.
 
 ### 3.2. Server Control Panel
 
