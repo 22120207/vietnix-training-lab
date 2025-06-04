@@ -36,23 +36,15 @@ top
 ![TOP RESULT](images/top-result.png)
 
 Ý nghĩa của các dòng chữ là:
-    - **us (User)**: %CPU dùng để chạy User Process
-
-    - **sy (System)**: %CPU dùng để chạy Kernal (System) Process
-
-    - **ni (Nice)**: %CPU dùng để chạy các Process đã được sửa nice value (sửa mức độ ưu tiên của process)
-
-    - **id (Idle)**: %CPU lý tưởng còn lại --> Ta có thể tính được %CPU đã sử dụng bằng cách lấy 100% - idle time
-
-        - Như trong hình thì ta có idle time là 72.0 --> %CPU đã sử dụng là 100 - 72 = 28%
-
-    - **wa (Wait)**: %CPU dùng để chờ quá trình I/O hoàn thành
-
-    - **hi (Wait)**: %CPU dùng trong việc xử lý interrupt hardware
-
-    - **si (Wait)**: %CPU dùng trong việc xử lý interrupt software
-
-    - **st (Wait)**: %CPU bị lấy từ hypervisor (nếu nó là máy ảo)
+    - **us (User)**: %CPU dùng để chạy User Process.
+    - **sy (System)**: %CPU dùng để chạy Kernal (System) Process.
+    - **ni (Nice)**: %CPU dùng để chạy các Process đã được sửa nice value (sửa mức độ ưu tiên của process).
+    - **id (Idle)**: %CPU lý tưởng còn lại --> Ta có thể tính được %CPU đã sử dụng bằng cách lấy 100% - idle time.
+        - Như trong hình thì ta có idle time là 72.0 --> %CPU đã sử dụng là 100 - 72 = 28%.
+    - **wa (Wait)**: %CPU dùng để chờ quá trình I/O hoàn thành.
+    - **hi (Wait)**: %CPU dùng trong việc xử lý interrupt hardware.
+    - **si (Wait)**: %CPU dùng trong việc xử lý interrupt software.
+    - **st (Wait)**: %CPU bị lấy từ hypervisor (nếu nó là máy ảo).
 
 ### b. URL
 ![URL](images/url.png)
@@ -72,7 +64,6 @@ top
 Cung cấp tài nguyên máy chủ để lưu trữ website.
 
 - **Shared Hosting**: Dùng chung máy chủ.
-
 - **Dedicated Hosting**: Thuê một máy vật lý, toàn quyền kiểm soát.
 
 ### b. VPS Hosting
