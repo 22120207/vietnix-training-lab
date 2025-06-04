@@ -1,6 +1,9 @@
 # Training Notes
 
 ## Mục lục
+- [0. Additional notes])(#1-additional-notes)
+  - [a. CPU](#a-cpu)
+  - [b. URL](#b-url)
 - [1. Các sản phẩm cơ bản của Vietnix](#1-các-sản-phẩm-cơ-bản-của-vietnix)
   - [a. Hosting](#a-hosting)
   - [b. VPS Hosting](#b-vps-hosting)
@@ -21,6 +24,39 @@
 - [6. Lab](#6-lab)
   - [6.1. Nội dung cần nắm trước khi làm bài lab](#61-nội-dung-cần-nắm-trước-khi-làm-bài-lab)
   - [6.2. Từng bước cấu hình](#62-từng-bước-cấu-hình)
+
+## 0. Additional notes
+
+### a. CPU
+Câu lệnh để kiểm tra cpu trên linux
+```bash
+top
+```
+
+![TOP RESULT](images/top-result.png)
+
+### b. URL
+![URL](images/url.png)
+**Scheme** chính là giao thức sẽ sử dụng, nếu là http/https là giao thức truyền tải dữ liệu trên WWW. Còn ftp thì sẽ là giao thức truyền tải dữ liệu giữ Clients và Servers trên mạng Internet
+
+**User Info** chính là username, password để đăng nhập, thông thường đa số browser sẽ lược bớt nó
+
+**Port**: chính là port mà ta truy cập vào, thông thường đối với http/https là port 80/443 thì sẽ được web browser ẩn đi
+
+**Path**: Có thể là path logic (được xử lý bởi bên server) hoặc là path thực tế, là đường dẫn đến file thực ở Server
+
+**Fragment**: Liên kết đến các nội dung trên 1 trang
+
+Ý nghĩa của các dòng chữ là:
+    - **us (User)**: %CPU dùng để chạy User Process
+    - **sy (System)**: %CPU dùng để chạy Kernal (System) Process
+    - **ni (Nice)**: %CPU dùng để chạy các Process đã được sửa nice value (sửa mức độ ưu tiên của process)
+    - **id (Idle)**: %CPU lý tưởng còn lại --> Ta có thể tính được %CPU đã sử dụng bằng cách lấy 100% - idle time
+        - Như trong hình thì ta có idle time là 72.0 --> %CPU đã sử dụng là 100 - 72 = 28%
+    - **wa (Wait)**: %CPU dùng để chờ quá trình I/O hoàn thành
+    - **hi (Wait)**: %CPU dùng trong việc xử lý interrupt hardware
+    - **si (Wait)**: %CPU dùng trong việc xử lý interrupt software
+    - **st (Wait)**: %CPU bị lấy từ hypervisor (nếu nó là máy ảo)
 
 ## 1. Các sản phẩm cơ bản của Vietnix
 
@@ -254,7 +290,7 @@ Hệ thống quản lý nội dung (CMS) mã nguồn mở, giúp tạo và quả
 ### 6.1. Nội dung cần nắm trước khi làm bài Lab
 
 #### 1. Reverse Proxy
-![Reverse Proxy Flow](reverse-proxy-flow.png)
+![Reverse Proxy Flow](images/reverse-proxy-flow.png)
 
 Reverse Proxy bản chất là một server tiếp nhận request từ phía Clients, và sau đó nó sẽ điều hướng các requests đến cho phía web server.
 Việc dựng một Reverse Proxy giúp giấu đi địa chỉ IP thực của phía web server, tránh được việc các hacker DDOS đến web server dẫn đến tình trạng quá tải. Ngoài ra ta cũng có thể cấu hình Reverse Proxy load balancing các request đến web server sao cho đảm bảo tài nguyên các từng web server đều được tận dụng ở mức tối ưu nhất.
@@ -305,7 +341,7 @@ Một trang web có thể vừa static và dynamic. Đối với phía Frontend,
 ---
 
 ##### Workflow của bài lab
-![WORK-FLOW](reverse-proxy-workflow.png)
+![WORK-FLOW](images/reverse-proxy-workflow.png)
 
 ##### MySQL setup
 
@@ -455,7 +491,7 @@ systemctl restart apache2
 ```
 
 ##### Kiểm tra thử prefix http://laravel.caotienminh.software:8080/api/posts  
-![LARAVEL API](laravel-api.png)
+![LARAVEL API](images/laravel-api.png)
 
 ##### Tạo page Frontend trên Wordpress
 
@@ -505,13 +541,13 @@ add_shortcode('laravel_posts', 'laravel_api_posts_shortcode');
 ###### Activate plugin
 
 Vào wordpress /wp-admin đeer activate plugin vừa tạo xong  
-![ACTIVATE PLUGIN](activate-plugin.png)
+![ACTIVATE PLUGIN](images/activate-plugin.png)
 
 ###### Tạo page với template như sau
-![WORDPRESS PAGE](wordpress-page.png)
+![WORDPRESS PAGE](images/wordpress-page.png)
 
 ###### Kết quả sau khi tạo thành công
-![LAB FINAL RESULTS](lab-final-results.png)
+![LAB FINAL RESULTS](images/lab-final-results.png)
 
 ###### Cấu hình HTTPS cho frontend (https://wordpress.caotienminh.software) 
 ```bash
