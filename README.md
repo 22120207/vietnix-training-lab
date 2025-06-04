@@ -1,7 +1,7 @@
 # Training Notes
 
 ## Mục lục
-- [0. Additional notes](#1-additional-notes)
+- [0. Additional notes](#0-additional-notes)
   - [a. CPU](#a-cpu)
   - [b. URL](#b-url)
 - [1. Các sản phẩm cơ bản của Vietnix](#1-các-sản-phẩm-cơ-bản-của-vietnix)
