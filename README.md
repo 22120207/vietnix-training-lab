@@ -35,6 +35,17 @@ top
 
 ![TOP RESULT](images/top-result.png)
 
+Ý nghĩa của các dòng chữ là:
+    - **us (User)**: %CPU dùng để chạy User Process
+    - **sy (System)**: %CPU dùng để chạy Kernal (System) Process
+    - **ni (Nice)**: %CPU dùng để chạy các Process đã được sửa nice value (sửa mức độ ưu tiên của process)
+    - **id (Idle)**: %CPU lý tưởng còn lại --> Ta có thể tính được %CPU đã sử dụng bằng cách lấy 100% - idle time
+        - Như trong hình thì ta có idle time là 72.0 --> %CPU đã sử dụng là 100 - 72 = 28%
+    - **wa (Wait)**: %CPU dùng để chờ quá trình I/O hoàn thành
+    - **hi (Wait)**: %CPU dùng trong việc xử lý interrupt hardware
+    - **si (Wait)**: %CPU dùng trong việc xử lý interrupt software
+    - **st (Wait)**: %CPU bị lấy từ hypervisor (nếu nó là máy ảo)
+
 ### b. URL
 ![URL](images/url.png)
 **Scheme** chính là giao thức sẽ sử dụng, nếu là http/https là giao thức truyền tải dữ liệu trên WWW. Còn ftp thì sẽ là giao thức truyền tải dữ liệu giữ Clients và Servers trên mạng Internet
@@ -46,17 +57,6 @@ top
 **Path**: Có thể là path logic (được xử lý bởi bên server) hoặc là path thực tế, là đường dẫn đến file thực ở Server
 
 **Fragment**: Liên kết đến các nội dung trên 1 trang
-
-Ý nghĩa của các dòng chữ là:
-    - **us (User)**: %CPU dùng để chạy User Process
-    - **sy (System)**: %CPU dùng để chạy Kernal (System) Process
-    - **ni (Nice)**: %CPU dùng để chạy các Process đã được sửa nice value (sửa mức độ ưu tiên của process)
-    - **id (Idle)**: %CPU lý tưởng còn lại --> Ta có thể tính được %CPU đã sử dụng bằng cách lấy 100% - idle time
-        - Như trong hình thì ta có idle time là 72.0 --> %CPU đã sử dụng là 100 - 72 = 28%
-    - **wa (Wait)**: %CPU dùng để chờ quá trình I/O hoàn thành
-    - **hi (Wait)**: %CPU dùng trong việc xử lý interrupt hardware
-    - **si (Wait)**: %CPU dùng trong việc xử lý interrupt software
-    - **st (Wait)**: %CPU bị lấy từ hypervisor (nếu nó là máy ảo)
 
 ## 1. Các sản phẩm cơ bản của Vietnix
 
