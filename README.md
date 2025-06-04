@@ -37,8 +37,6 @@ top
 
 Ý nghĩa của các dòng chữ là.
 
-Ý nghĩa của các dòng chữ là:
-
 * **us (User)**: %CPU dùng để chạy User Process.
 * **sy (System)**: %CPU dùng để chạy Kernel (System) Process.
 * **ni (Nice)**: %CPU dùng để chạy các Process đã được sửa nice value (sửa mức độ ưu tiên của process).
