@@ -478,7 +478,7 @@ Author: Your Name
 
 // Shortcode to display Laravel API posts  
 function laravel_api_posts_shortcode() {  
-    $response = wp_remote_get('http://laravel.caotienminh.software/api/posts');  
+    $response = wp_remote_get('http://laravel.caotienminh.software:8080/api/posts');  
     if (is_wp_error($response)) {  
         return '<p>Error fetching posts: ' . $response->get_error_message() . '</p>';  
     }  
