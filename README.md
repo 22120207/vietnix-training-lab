@@ -21,9 +21,10 @@
     - [d. VestaCP](#d-vestacp)
 - [4. WordPress Hosting](#4-wordpress-hosting)
 - [5. iptables](#5-iptables)
-- [6. Lab](#6-lab)
+- [6. Lab Reverse Proxy](#6-lab)
   - [6.1. Nội dung cần nắm trước khi làm bài lab](#61-nội-dung-cần-nắm-trước-khi-làm-bài-lab)
   - [6.2. Từng bước cấu hình](#62-từng-bước-cấu-hình)
+- [7. Lab K8s Cluster Setup](#7-lab-k8s-cluster-setup)
 
 ## 0. Additional notes
 
@@ -558,5 +559,141 @@ sudo certbot --nginx
 ##### Cấu hình chặn truy cập trực tiếp đến http://laravel.caotienminh.software
 --> Tạo 1 iptables mà nó sẽ rejects tất cả requests đến port 8080 (port của backend) ngoại trừ requests đến từ ip address của chính nó  
 ```bash
-sudo iptables -I INPUT -p tcp --dport 8080 ! -s  14.225.212.151 -j REJECT --reject-with tcp-reset  
+sudo iptables -I INPUT -p tcp --dport 8080 ! -s  14.225.212.151 -j REJECT --reject-with tcp-reset 
 ```
+
+# 7. Lab K8s Cluster Setup
+
+## Tải cụm K8s bằng kubeadm
+
+Cụm k8s gồm 1 Master Node (minhct01) và 2 Worker Node (minhct02)
+
+### Master & Worker Node: 
+Tại một script thông qua lệnh
+```bash
+vi install.sh
+```
+
+Sau đó dán nội dung file script phía dưới vô, tạo script và chạy lệnh bash install.sh ở cả Master và Worker Node
+
+```bash
+ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+
+ echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+
+ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+ chmod +x kubectl
+ mkdir -p ~/.local/bin
+ mv ./kubectl ~/.local/bin/kubectl
+ # and then append (or prepend) ~/.local/bin to $PATH
+
+ kubectl version --client
+
+# Tắt vùng swap
+sudo swapoff -a
+
+# Create the .conf file to load the modules at bootup
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+# sysctl params required by setup, params persist across reboots
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+
+# Apply sysctl params without reboot
+sudo sysctl --system
+
+## Install CRIO Runtime
+sudo apt-get update -y
+sudo apt-get install -y software-properties-common curl apt-transport-https ca-certificates gpg
+
+sudo curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/cri-o-apt-keyring.gpg
+echo "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/ /" | sudo tee /etc/apt/sources.list.d/cri-o.list
+
+sudo apt-get update -y
+sudo apt-get install -y cri-o
+
+sudo systemctl daemon-reload
+sudo systemctl enable crio --now
+sudo systemctl start crio.service
+
+echo "CRI runtime installed successfully"
+
+# Add Kubernetes APT repository and install required packages
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+sudo apt-get update -y
+sudo apt-get install -y kubelet="1.29.0-*" kubectl="1.29.0-*" kubeadm="1.29.0-*"
+sudo apt-get update -y
+sudo apt-get install -y jq
+
+sudo systemctl enable --now kubelet
+sudo systemctl start kubelet
+
+```
+### Master Node:
+
+#### a. Chạy các lệnh sau chỉ trên Master node
+
+```bash
+ sudo kubeadm config images pull
+
+ sudo kubeadm init
+
+ mkdir -p "$HOME"/.kube
+ sudo cp -i /etc/kubernetes/admin.conf "$HOME"/.kube/config
+ sudo chown "$(id -u)":"$(id -g)" "$HOME"/.kube/config
+
+ # Network Plugin = calico
+ kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.0/manifests/calico.yaml
+```
+After succesfully running, your Kubernetes control plane will be initialized successfully.
+
+#### b. Tạo token trên master node và dán vào các worker node để join vào cluster:
+
+```bash
+ kubeadm token create --print-join-command
+```
+
+Kết quả câu lệnh sẽ như sau:
+
+```bash
+kubeadm join 14.225.212.61:6443 --token pfjj9v.96xve4huk0png1uz --discovery-token-ca-cert-hash sha256:c07f6d3caee5307433bf016cbec2af75f5f7d86edf1eb0cc87a60a6c6600fb4c 
+```
+
+#### c. Expose port 6443 in the Security group for the Worker to connect to Master Node
+
+### Worker Node:
+
+#### a. Trên Worker node chạy các lệnh sau đây
+
+```bash
+sudo kubeadm reset pre-flight checks
+```
+
+#### b. Dán lệnh sau vào từng worker node để join vào cluster
+
+```bash
+kubeadm join 14.225.212.61:6443 --token pfjj9v.96xve4huk0png1uz --discovery-token-ca-cert-hash sha256:c07f6d3caee5307433bf016cbec2af75f5f7d86edf1eb0cc87a60a6c6600fb4c --v=5
+```
+
+Chạy lệnh phía dưới ở trên Master node để kiểm tra
+```bash
+kubectl get nodes
+```
+
+Kết quả như sau:
+
+![K8S RESULTS](k8s-results.png)
