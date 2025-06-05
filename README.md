@@ -741,4 +741,4 @@ helm upgrade kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -n k
 ```
 
 Truy cập vào web browser thông qua node port để kiểm tra kết quả
-![K8S DASHBOARD](k8s-dashboard.png)
+![K8S DASHBOARD](images/k8s-dashboard.png)
