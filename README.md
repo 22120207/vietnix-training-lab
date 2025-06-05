@@ -696,4 +696,4 @@ kubectl get nodes
 
 Kết quả như sau:
 
-![K8S RESULTS](k8s-results.png)
+![K8S RESULTS](images/k8s-results.png)
