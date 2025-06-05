@@ -566,7 +566,7 @@ sudo iptables -I INPUT -p tcp --dport 8080 ! -s  14.225.212.151 -j REJECT --reje
 
 ## Tải cụm K8s bằng kubeadm
 
-Cụm k8s gồm 1 Master Node (minhct01) và 2 Worker Node (minhct02)
+Cụm k8s gồm 1 Master Node (minhct01) và 2 Worker Node (minhct02, minhct03)
 
 ### Master & Worker Node: 
 Tại một script thông qua lệnh
