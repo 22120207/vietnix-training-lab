@@ -697,3 +697,48 @@ kubectl get nodes
 Kết quả như sau:
 
 ![K8S RESULTS](images/k8s-results.png)
+
+### K8s Dashboard
+Tải K8s Dashboard bằng Helm để dễ hơn trong việc quản lý, giám sát các pod, svc, deployment, ... 
+
+
+Tải Helm trên Master Node
+```bash
+wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz
+
+tar -xvf  helm-v3.12.0-linux-amd64.tar.gz
+
+sudo mv linux-amd64/helm  /usr/bin
+
+helm version
+```
+
+Chạy lệnh sau để tải k8s dashboard
+```bash
+# Add kubernetes-dashboard repository
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+# Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart
+helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
+```
+
+Cấu hình lại phần svc của Kong API Gateway của K8s Dashboard thành NodePort để có thể truy cập từ bên ngoài
+```bash
+helm get values kubernetes-dashboard -n kubernetes-dashboard > values.yaml
+```
+
+SỬa lại như sau
+```yaml
+kong:
+  proxy:
+    type: NodePort
+    http:
+      enabled: true
+```
+
+Sau đó chạy lệnh:
+```bash
+helm upgrade kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -n kubernetes-dashboard -f values.yaml
+```
+
+Truy cập vào web browser thông qua node port để kiểm tra kết quả
+![K8S DASHBOARD](k8s-dashboard.png)
