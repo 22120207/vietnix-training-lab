@@ -44,8 +44,8 @@ top
 * **id (Idle)**: %CPU lý tưởng còn lại --> Ta có thể tính được %CPU đã sử dụng bằng cách lấy 100% - idle time.
     * Như trong hình thì ta có idle time là 72.0 --> %CPU đã sử dụng là 100 - 72 = 28%.
 * **wa (Wait)**: %CPU dùng để chờ quá trình I/O hoàn thành.
-* **hi (Wait)**: %CPU dùng trong việc xử lý interrupt hardware.
-* **si (Wait)**: %CPU dùng trong việc xử lý interrupt software.
+* **hi (hardware interrupt)**: %CPU dùng trong việc xử lý interrupt hardware.
+* **si (software interrupt)**: %CPU dùng trong việc xử lý interrupt software.
 * **st (Wait)**: %CPU bị lấy từ hypervisor (nếu nó là máy ảo).
 
 ### b. URL
